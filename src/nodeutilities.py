@@ -1,6 +1,7 @@
 import re
 from textnode import TextNode, TextType
 from leafnode import LeafNode
+from blocknode import BlockType
 
 
 def markdown_to_blocks(markdown):
@@ -34,6 +35,39 @@ def text_to_textnodes(text):
     new_nodes = split_nodes_link(new_nodes)
 
     return new_nodes
+
+
+def block_to_block_type(block):
+    if block.startswith("#"):
+        return BlockType.HEADING
+    if block.startswith("```") and block.endswith("```"):
+        return BlockType.CODE
+
+    # check each line starts with '>'
+    is_quote = True
+    for line in block.split("\n"):
+        if not line.startswith(">"):
+            is_quote = False
+    if is_quote:
+        return BlockType.QUOTE
+
+    # check each line starts iwth '-'
+    is_unordered_list = True
+    for line in block.split("\n"):
+        if not line.startswith("-"):
+            is_quote = False
+    if is_unordered_list:
+        return BlockType.UNORDERED_LIST
+
+    # check each line starts with a number followed by '.'
+    is_unordered_list = True
+    for line in block.split("\n"):
+        if not re.search(r"^\d+\.", line):
+            is_quote = False
+    if is_unordered_list:
+        return BlockType.ORDERED_LIST
+
+    return BlockType.PARAGRAPH
 
 
 def text_node_to_html_node(text_node):
