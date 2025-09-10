@@ -3,6 +3,24 @@ from textnode import TextNode, TextType
 from leafnode import LeafNode
 
 
+def markdown_to_blocks(markdown):
+    if len(markdown) == 0:
+        raise Exception("missing markdown, unable to parse")
+
+    markdown_blocks = markdown.split("\n\n")
+
+    filtered_blocks = []
+
+    for markdown_block in markdown_blocks:
+        markdown_block = markdown_block.strip()
+        if markdown_block == "":
+            continue
+
+        filtered_blocks.append(markdown_block)
+
+    return filtered_blocks
+
+
 def text_to_textnodes(text):
     new_nodes = []
 
