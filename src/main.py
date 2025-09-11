@@ -197,7 +197,7 @@ def main():
     Main entry point for the static site generator.
     
     This function orchestrates the static site generation process.
-    It deletes the public directory, copies static assets, and generates
+    It deletes the docs directory, copies static assets, and generates
     all HTML pages from markdown content recursively.
     
     Command line usage:
@@ -218,16 +218,16 @@ def main():
     
     print(f"Using basepath: {basepath}")
     
-    # Delete anything in the public directory
-    if os.path.exists("public"):
-        print("Removing existing public directory")
-        shutil.rmtree("public")
+    # Delete anything in the docs directory
+    if os.path.exists("docs"):
+        print("Removing existing docs directory")
+        shutil.rmtree("docs")
     
-    # Copy all static files from static to public
-    copy_static_to_public("static", "public")
+    # Copy all static files from static to docs
+    copy_static_to_public("static", "docs")
     
     # Generate all HTML pages from markdown files recursively
-    generate_pages_recursively("content", "template.html", "public", basepath)
+    generate_pages_recursively("content", "template.html", "docs", basepath)
 
 
 if __name__ == "__main__":
